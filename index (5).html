@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Normativa General — Pixeled Community</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #0f0f18;
+    --bg3: #141422;
+    --bg4: #1a1a2e;
+    --purple: #8b5cf6;
+    --purple-light: #a78bfa;
+    --purple-dim: #6d28d9;
+    --purple-glow: rgba(139,92,246,0.15);
+    --purple-border: rgba(139,92,246,0.35);
+    --text: #e8e6f0;
+    --text-muted: #9991b8;
+    --text-dim: #6b6489;
+    --white: #ffffff;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; font-size:15px; line-height:1.7; min-height:100vh; }
+  ::-webkit-scrollbar { width:6px; }
+  ::-webkit-scrollbar-track { background:var(--bg2); }
+  ::-webkit-scrollbar-thumb { background:var(--purple-dim); border-radius:3px; }
+  header { background:var(--bg2); border-bottom:1px solid var(--purple-border); position:sticky; top:0; z-index:100; }
+  .header-inner { max-width:1100px; margin:0 auto; padding:0 2rem; height:64px; display:flex; align-items:center; justify-content:space-between; }
+  .logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
+  .hero { background:var(--bg2); border-bottom:1px solid var(--purple-border); padding:3.5rem 2rem 3rem; text-align:center; position:relative; overflow:hidden; }
+  .hero::before { content:''; position:absolute; top:-60px; left:50%; transform:translateX(-50%); width:600px; height:300px; background:radial-gradient(ellipse,rgba(139,92,246,0.12) 0%,transparent 70%); pointer-events:none; }
+  .hero-label { display:inline-block; background:var(--purple-glow); border:1px solid var(--purple-border); color:var(--purple-light); padding:5px 16px; border-radius:20px; font-size:11px; font-weight:600; letter-spacing:2px; text-transform:uppercase; margin-bottom:1.5rem; }
+  .hero h1 { font-family:'Rajdhani',sans-serif; font-size:clamp(2.4rem,6vw,4rem); font-weight:700; color:#fff; letter-spacing:2px; line-height:1.1; margin-bottom:1.2rem; }
+  .hero h1 span { color:var(--purple-light); }
+  .hero p { max-width:560px; margin:0 auto 2rem; color:var(--text-muted); font-size:15px; line-height:1.8; }
+  .layout { max-width:1100px; margin:0 auto; padding:3rem 2rem; display:grid; grid-template-columns:260px 1fr; gap:2.5rem; align-items:start; }
+  .sidebar { position:sticky; top:80px; }
+  .sidebar-title { font-size:10px; font-weight:600; color:var(--text-dim); letter-spacing:2px; text-transform:uppercase; margin-bottom:1rem; padding-left:4px; }
+  .nav-chapter { display:flex; align-items:center; gap:8px; padding:8px 12px; border-radius:8px; color:var(--text-muted); font-size:13px; font-weight:500; text-decoration:none; transition:all 0.2s; cursor:pointer; margin-bottom:2px; }
+  .nav-chapter:hover { background:var(--purple-glow); color:var(--purple-light); }
+  .nav-chapter.active { background:var(--purple-glow); color:var(--purple-light); border-left:2px solid var(--purple); padding-left:10px; }
+  .nav-dot { width:6px; height:6px; border-radius:50%; background:var(--purple-dim); flex-shrink:0; }
+  .nav-chapter.active .nav-dot { background:var(--purple-light); }
+  .section { margin-bottom:3.5rem; scroll-margin-top:90px; }
+  .section-header { display:flex; align-items:center; gap:14px; margin-bottom:2rem; padding-bottom:1rem; border-bottom:1px solid rgba(139,92,246,0.2); }
+  .section-num { background:linear-gradient(135deg,#6d28d9,#8b5cf6); color:white; font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:700; width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .section-header h2 { font-family:'Rajdhani',sans-serif; font-size:1.5rem; font-weight:700; color:#fff; letter-spacing:1px; text-transform:uppercase; }
+  .rule-card { background:var(--bg3); border:1px solid rgba(255,255,255,0.06); border-radius:12px; overflow:hidden; margin-bottom:1rem; transition:border-color 0.2s; }
+  .rule-card:hover { border-color:var(--purple-border); }
+  .rule-header { display:flex; align-items:center; gap:12px; padding:1rem 1.4rem; cursor:pointer; user-select:none; }
+  .rule-id { font-family:'Rajdhani',sans-serif; font-size:12px; font-weight:600; color:var(--purple); background:rgba(139,92,246,0.1); padding:2px 8px; border-radius:4px; flex-shrink:0; letter-spacing:0.5px; }
+  .rule-title { font-weight:600; font-size:14px; color:var(--text); flex:1; }
+  .rule-toggle { color:var(--text-dim); transition:transform 0.25s; flex-shrink:0; }
+  .rule-toggle.open { transform:rotate(180deg); }
+  .rule-body { display:none; padding:0 1.4rem 1.4rem; }
+  .rule-body.open { display:block; border-top:1px solid rgba(255,255,255,0.05); padding-top:1.1rem; }
+  .rule-body p { color:var(--text-muted); font-size:14px; margin-bottom:0.8rem; line-height:1.75; }
+  .rule-body p:last-child { margin-bottom:0; }
+  .rule-body strong { color:var(--text); font-weight:600; }
+  .examples-label { font-size:11px; font-weight:600; color:var(--purple-light); letter-spacing:1.5px; text-transform:uppercase; margin-bottom:0.6rem; display:block; margin-top:0.8rem; }
+  .example-list { list-style:none; margin-bottom:1rem; }
+  .example-list li { display:flex; align-items:flex-start; gap:8px; padding:5px 0; color:var(--text-muted); font-size:13.5px; line-height:1.6; border-bottom:1px solid rgba(255,255,255,0.04); }
+  .example-list li:last-child { border-bottom:none; }
+  .example-list li::before { content:'›'; color:var(--purple); font-size:16px; flex-shrink:0; margin-top:1px; font-weight:600; }
+  .subsection { background:var(--bg4); border:1px solid rgba(255,255,255,0.05); border-radius:10px; padding:1.2rem 1.4rem; margin-bottom:0.8rem; }
+  .subsection-title { font-family:'Rajdhani',sans-serif; font-size:14px; font-weight:700; color:var(--purple-light); letter-spacing:0.5px; text-transform:uppercase; margin-bottom:0.7rem; display:flex; align-items:center; gap:8px; }
+  .subsection-title span.num { font-size:11px; color:var(--purple-dim); font-weight:600; }
+  .subsection p { color:var(--text-muted); font-size:13.5px; line-height:1.75; }
+  .warn-box { background:rgba(139,92,246,0.08); border:1px solid rgba(139,92,246,0.25); border-left:3px solid var(--purple); border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
+  .warn-box p { color:var(--text-muted); font-size:13.5px; line-height:1.75; margin:0; }
+  .warn-box p strong { color:var(--purple-light); }
+  .danger-box { background:rgba(220,38,38,0.07); border:1px solid rgba(220,38,38,0.2); border-left:3px solid #dc2626; border-radius:8px; padding:1rem 1.2rem; margin:1.2rem 0; }
+  .danger-box p { color:var(--text-muted); font-size:13.5px; line-height:1.75; margin:0; }
+  .danger-box strong { color:#f87171; }
+  .final-note { background:linear-gradient(135deg,var(--bg3),var(--bg4)); border:1px solid var(--purple-border); border-radius:14px; padding:2.2rem 2.5rem; text-align:center; margin-top:3rem; }
+  .final-note h3 { font-family:'Rajdhani',sans-serif; font-size:1.2rem; font-weight:700; color:#fff; letter-spacing:1px; text-transform:uppercase; margin-bottom:0.8rem; }
+  .final-note p { color:var(--text-muted); font-size:14px; max-width:600px; margin:0 auto; line-height:1.8; }
+  .final-note p strong { color:var(--purple-light); }
+  footer { background:var(--bg2); border-top:1px solid rgba(255,255,255,0.06); padding:2rem; text-align:center; }
+  footer p { color:var(--text-dim); font-size:12px; }
+  footer span { color:var(--purple-light); }
+  .expand-btn { background:var(--purple-glow); border:1px solid var(--purple-border); color:var(--purple-light); padding:7px 18px; border-radius:8px; font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; cursor:pointer; transition:all 0.2s; font-family:'Rajdhani',sans-serif; }
+  .expand-btn:hover { background:rgba(139,92,246,0.2); border-color:var(--purple); }
+  .top-bar { display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem; flex-wrap:wrap; gap:1rem; }
+  .top-bar-label { font-size:12px; color:var(--text-dim); }
+  .top-bar-label span { color:var(--purple-light); font-weight:600; }
+  @media (max-width:768px) {
+    .layout { grid-template-columns:1fr; padding:2rem 1rem; }
+    .sidebar { position:static; display:none; }
+    .hero { background:var(--bg2); border-bottom:1px solid var(--purple-border); padding:3.5rem 2rem 3rem; text-align:center; position:relative; overflow:hidden; }
+    .header-inner { padding:0 1rem; }
+  }
+  .hero-stats { display:flex; align-items:center; justify-content:center; gap:0; margin-top:2rem; background:var(--bg3); border:1px solid var(--purple-border); border-radius:14px; overflow:hidden; max-width:420px; margin-left:auto; margin-right:auto; }
+  .hero-stat { flex:1; padding:1.1rem 1.5rem; display:flex; flex-direction:column; align-items:center; gap:4px; }
+  .hero-stat-div { width:1px; background:var(--purple-border); align-self:stretch; }
+  .stat-num { font-family:'Rajdhani',sans-serif; font-size:1.6rem; font-weight:700; color:var(--purple-light); line-height:1; }
+  .stat-label { font-size:11px; color:var(--text-dim); letter-spacing:1px; text-transform:uppercase; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <img src="data:image/png;base64,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" alt="Pixeled Community" style="height:44px; image-rendering:pixelated;">
+    </a>
+
+  </div>
+</header>
+
+<div class="hero">
+  <img src="data:image/png;base64,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" alt="Pixeled Community" style="height:80px; image-rendering:pixelated; margin-bottom:1.5rem; display:block; margin-left:auto; margin-right:auto;">
+  <div class="hero-label">Servidor +18 · Roleplay Serio</div>
+  <h1>Normativa <span>General</span></h1>
+  <p>Documento oficial de reglas y conceptos básicos de Pixeled Community. Su lectura y cumplimiento son obligatorios para todos los jugadores.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="stat-num">6</span><span class="stat-label">Capítulos</span></div>
+    <div class="hero-stat-div"></div>
+    <div class="hero-stat"><span class="stat-num">32+</span><span class="stat-label">Normas</span></div>
+    <div class="hero-stat-div"></div>
+    <div class="hero-stat"><span class="stat-num">+18</span><span class="stat-label">Servidor</span></div>
+  </div>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title">Contenido</div>
+    <nav>
+      <a class="nav-chapter active" href="#cap1"><div class="nav-dot"></div> 1. Conceptos Básicos</a>
+      <a class="nav-chapter" href="#cap2"><div class="nav-dot"></div> 2. Normas Generales</a>
+      <a class="nav-chapter" href="#cap3"><div class="nav-dot"></div> 3. Trabajos de Oposición</a>
+      <a class="nav-chapter" href="#cap4"><div class="nav-dot"></div> 4. Reportes</a>
+      <a class="nav-chapter" href="#cap5"><div class="nav-dot"></div> 5. Sanciones</a>
+      <a class="nav-chapter" href="#cap6"><div class="nav-dot"></div> 6. Comunicación</a>
+    </nav>
+  </div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">1.2</span><span class="rule-title">Out of Character (OOC)</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Término para expresar cualquier información conocida fuera del desarrollo del personaje, tanto dentro como fuera del juego. Todo lo hablado en Discord que no se escuche en el juego es OOC. Los reportes con administradores también son OOC.</p></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">1.3</span><span class="rule-title">Powergaming (PG)</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Realizar acciones que en la vida real serían imposibles o extremadamente irracionales.</p><span class="examples-label">Ejemplos</span><ul class="example-list"><li>Hablar por radio mientras estás esposado, herido o muerto.</li><li>Usar la tercera vista estando dentro de un arbusto.</li><li>No rolear golpes, vuelcos o salidas despedido de un vehículo.</li><li>No detenerse con una o más ruedas pinchadas (aplica a vehículos de 2+ neumáticos).</li><li>Conducir a máxima velocidad por vías de tren o carreteras de arena.</li></ul></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">1.4</span><span class="rule-title">Metagaming (MG)</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Usar información OOC para obtener un beneficio dentro del rol.</p><span class="examples-label">Ejemplo</span><ul class="example-list"><li>Reconocer a jugadores por la voz cuando van enmascarados.</li></ul></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">1.5</span><span class="rule-title">Bunny Jump (BJ)</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Uso repetitivo de saltos para desplazarse más rápido hacia un destino. Se aplica también al uso abusivo de la bicicleta con el mismo fin.</p></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">1.6</span><span class="rule-title">Player Kill (PK)</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Ocurre cuando tu personaje queda inconsciente y es reanimado por el LSMD. Conlleva la <strong>pérdida de memoria</strong> del rol previo.</p></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">1.7</span><span class="rule-title">Ajuste de Cuentas</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Venganza tomada en respuesta a un daño previo recibido. <strong>No debe confundirse con el RK</strong>: en el ajuste de cuentas el personaje conserva su memoria.</p></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">1.8</span><span class="rule-title">Character Kill (CK)</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Muerte definitiva del personaje con pérdida total de dinero, armas e identidad. Para continuar jugando deberá crearse un personaje nuevo con historia y nombre distintos.</p><div class="warn-box"><p><strong>Obligatorio:</strong> La nueva historia del personaje debe añadirse en un ticket de Discord.</p></div></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">1.9</span><span class="rule-title">Death Match (DM)</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Agredir o eliminar a otro jugador sin motivo aparente o por aburrimiento. Está estrictamente prohibido y conlleva sanción.</p></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">1.10</span><span class="rule-title">Revenge Kill (RK)</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Ignorar la pérdida de memoria causada por un PK y tomar venganza contra el responsable. Se considera una infracción grave.</p></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">1.11</span><span class="rule-title">Vehicle Death Match (VDM)</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Dejar a otro jugador inconsciente usando un vehículo como arma de forma intencionada.</p></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">1.12</span><span class="rule-title">Bad Driving (BD)</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Conducción inadecuada sin respetar la lógica del mundo real. En situaciones de huida la adrenalina lo justifica, pero en el día a día debes ser un conductor ejemplar que no llame la atención.</p><span class="examples-label">Ejemplos de BD</span><ul class="example-list"><li>Cruzar a toda velocidad un estacionamiento transitado.</li><li>Atravesar una avenida de un lado al otro.</li><li>Conducir por carril contrario sin justificación.</li></ul></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">1.13</span><span class="rule-title">Rol de Entorno</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>La ciudad está llena de vida: transeúntes, cámaras de vigilancia, vecinos y zonas restringidas (base militar, aeropuertos). Solo se pueden rolear cámaras en zonas donde estén físicamente instaladas. Siempre debes actuar en consecuencia con el entorno.</p><span class="examples-label">Ejemplo</span><ul class="example-list"><li>No puedes entrar libremente en una base militar; en la vida real estaría custodiada por soldados armados.</li></ul></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">1.14</span><span class="rule-title">Interpretación del Personaje y la Situación</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Crea una historia para tu personaje y actúa como si existiera en la vida real. Respeta el contexto, la personalidad definida y la evolución coherente y progresiva de tu PJ.</p><div class="warn-box"><p><strong>Importante:</strong> Los civiles no pueden actuar como banda o mafia, ni acordar vestir colores específicos de forma organizada.</p></div></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">1.15</span><span class="rule-title">Fair Play (FP)</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Comportamiento honesto y correcto en todo momento. Lo más importante no es ganar, sino construir y vivir historias. Siempre debes dar oportunidades reales al bando contrario.</p><span class="examples-label">Ejemplos de infracción</span><ul class="example-list"><li>En una persecución con una Akuma, meterse directamente en un callejón inaccesible para el coche policial.</li><li>Llevar a un jefe secuestrado al propio barrio, donde la facción rival no puede entrar a rescatarlo.</li></ul></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">1.16</span><span class="rule-title">Uso del /ME</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Todas las acciones del personaje, sean visibles en el juego o no (coger un objeto, realizar un gesto, etc.). Se interpretan siempre en <strong>tercera persona</strong>.</p></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">1.17</span><span class="rule-title">Uso del /DO</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Se utiliza para expresar estados de ánimo del personaje, descripciones físicas, intentos de acciones y descripciones del entorno de una zona concreta.</p></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">1.18</span><span class="rule-title">AFK</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Está <strong>prohibido</strong> permanecer AFK dentro del servicio. Si necesitas un descanso, quédate sentado en la oficina o en tu zona de trabajo fuera de servicio.</p></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">1.19</span><span class="rule-title">Dupeo</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Cualquier duplicación de objetos, dinero, armas o vehículos debe reportarse inmediatamente a un Administrador. No hacerlo, o conocer que alguien lo realiza sin reportarlo, puede suponer la expulsión de la comunidad.</p><div class="danger-box"><p><strong>Infracción grave:</strong> La duplicación de recursos en el servidor está penada con ban permanente.</p></div></div></div>
+    </section>
+
+    <!-- CAP 2 -->
+    <section class="section" id="cap2">
+      <div class="section-header">
+        <div class="section-num">02</div>
+        <h2>Normas Generales</h2>
+      </div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">2.1</span><span class="rule-title">Valoración de Vida</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Tu personaje puede sufrir daños irreparables o morir. Debes tenerlo en cuenta para evitar situaciones que no ocurrirían en la vida real.</p><span class="examples-label">Infracciones frecuentes</span><ul class="example-list"><li>Enfrentarse estando en minoría e indefenso.</li><li>No rendirse cuando te apuntan con un arma.</li><li>No rolear las heridas del personaje.</li><li>Realizar acciones que supondrían muerte inmediata.</li></ul><div class="warn-box"><p>Si te apuntan con un arma de fuego y vas desarmado o con solo un arma cuerpo a cuerpo, estás <strong>obligado a valorar tu vida</strong> y acatar explícitamente las órdenes. No hacerlo puede derivar en un CK administrativo.</p></div></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">2.2</span><span class="rule-title">Evadir Rol</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Evitar forzosamente un rol sabiendo que no te beneficia. Está estrictamente prohibido.</p><ul class="example-list"><li>Evitar intencionadamente rolear con alguien.</li><li>Quedarse AFK para no participar en un rol.</li><li>Desconectarse para evitar las consecuencias de un rol.</li></ul></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">2.3</span><span class="rule-title">Cortar el Rol</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Interrumpir un rol en curso está prohibido y conlleva sanción. Siempre debes esperar a que el rol finalice antes de tratarlo.</p><ul class="example-list"><li>Reportar en mitad de un rol activo.</li><li>Hablar de temas OOC por el chat IC durante el rol.</li><li>No esperar a que el rol termine para hablar sobre lo sucedido.</li><li>Usar el chat OOC de forma abusiva durante el rol.</li></ul></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">2.4</span><span class="rule-title">Rol Ajeno</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><ul class="example-list"><li>Conectarse y unirse a un rol ya iniciado sin haber estado presente desde el principio.</li><li>Intervenir en un rol cerrado con la policía, como en los atracos.</li></ul></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">2.5</span><span class="rule-title">Daños Sensibles</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><div class="subsection"><div class="subsection-title"><span class="num">2.5.1</span> Violaciones</div><p>No están permitidas bajo ninguna circunstancia.</p></div><div class="subsection"><div class="subsection-title"><span class="num">2.5.2</span> Actos Sexuales</div><p>No están permitidos por norma general.</p></div><div class="subsection"><div class="subsection-title"><span class="num">2.5.3</span> Torturas, Amputaciones y Mutilaciones</div><p>No están permitidas por norma general. Solo podrán realizarse si son pactadas y aceptadas expresamente por ambas partes.</p></div></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">2.6</span><span class="rule-title">Insultos y Faltas de Respeto</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Los insultos y faltas de respeto <strong>OOC están terminantemente prohibidos</strong> y conllevan sanción administrativa. Los insultos IC se permiten con sentido común, moderación y cuando la situación lo justifique.</p><div class="danger-box"><p><strong>Prohibido en todo momento:</strong> insultos homófobos, tránsfobos, racistas, y términos como la «M», «V» o «N word». El incumplimiento reiterado puede resultar en ban permanente.</p></div></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">2.7</span><span class="rule-title">Zonas Seguras y Calientes</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><div class="subsection"><div class="subsection-title">Zonas Seguras</div><p>No existen zonas seguras genéricas. Solo aquellas con rol de entorno definido: comisarías y hospitales.</p></div><div class="subsection"><div class="subsection-title">Zonas Calientes</div><p>Solo las zonas con rol de entorno reconocido: barrios de bandas, sedes de mafias, médicos ilegales, etc. En ellas puede iniciarse rol agresivo sin necesidad de rol previo ni presencia policial. Todo jugador que muera en dichas zonas recibirá un PK automático y no podrá ser reanimado por el LSMD.</p></div></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">2.8</span><span class="rule-title">Uso de Binds</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Está <strong>totalmente prohibido</strong> el uso de binds en roles agresivos. Todo acto delictivo o agresivo con otros jugadores debe interpretarse de forma manual y adecuada.</p></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">2.9</span><span class="rule-title">Bugs y Fallos</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>El conocimiento y uso de cualquier bug o fallo del servidor está prohibido. Será sancionado si se emplea para evadir roles, obtener beneficio propio o generar cualquier ventaja.</p></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">2.10</span><span class="rule-title">Uso de Programas Externos</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><ul class="example-list"><li>Prohibido cualquier programa externo a FiveM que otorgue ventaja, incluyendo mods visuales o mejoras de AIM.</li><li>Permitidos los programas de grabación y streaming (OBS, Streamlabs, etc.).</li><li>Prohibido el uso de multicuentas.</li><li>Prohibidas las modificaciones de la carpeta Citizen que generen ventajas frente a otros jugadores.</li><li>Prohibidas las miras externas.</li></ul></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">2.11</span><span class="rule-title">Publicidad de Otros Servidores (SPAM)</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Queda <strong>prohibida y sancionada con la expulsión</strong> cualquier publicidad de otros servidores o servicios, ya sea dentro del servidor, en Discord o por cualquier otro medio.</p></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">2.12</span><span class="rule-title">Donación</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Está prohibida la reventa de activos obtenidos mediante donaciones a otros jugadores.</p></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">2.13</span><span class="rule-title">Uso del Chat y Comandos de Texto</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><div class="subsection"><div class="subsection-title"><span class="num">2.13.1</span> /msg — Mensaje Directo</div><p>Chat OOC privado para consultar dudas o situaciones de rol. No está permitido para quejas, protestas ni para incordiar a otros jugadores.</p></div><div class="subsection"><div class="subsection-title"><span class="num">2.13.2</span> /auxilio y /entorno</div><p>Alertas a servicios médicos o policiales. Nunca pueden ser falsas. Se roleará en tercera persona como si fuera un transeúnte observando la situación.</p></div><div class="subsection"><div class="subsection-title"><span class="num">2.13.3</span> /dados</div><p>Sistema de azar (números del 1 al 10) para resolver situaciones donde dos partes no llegan a acuerdo. Se pueden definir los criterios de cada número vía chat OOC y el resultado se interpreta con /do.</p></div><div class="subsection"><div class="subsection-title"><span class="num">2.13.4</span> Chat de Voz</div><p>Prohibido el uso de moduladores de voz sin autorización previa de la administración, ya que perjudica la experiencia del resto de jugadores.</p></div></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">2.14</span><span class="rule-title">Vestimenta</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Se podrá identificar a otros jugadores por su ropa únicamente en casos muy evidentes.</p></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">2.15</span><span class="rule-title">Slots de Personajes</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>No está permitido tener simultáneamente un personaje en una banda o mafia y otro en la policía.</p></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">2.16</span><span class="rule-title">Robo de Vehículos</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Está permitido el robo de vehículos sin acto delictivo previo, siempre que sea coherente con la interpretación del personaje y el rol lo requiera. De lo contrario, será sancionado.</p></div></div>
+    </section>
+
+    <!-- CAP 3 -->
+    <section class="section" id="cap3">
+      <div class="section-header">
+        <div class="section-num">03</div>
+        <h2>Trabajos de Oposición</h2>
+      </div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">3.1</span><span class="rule-title">LSMD — Los Santos Medical Department</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><div class="subsection"><div class="subsection-title"><span class="num">3.1.1</span> Estado de Inconsciencia</div><p>Un jugador inconsciente no podrá hablar ni comunicarse con terceros hasta que un LSMD haya tratado sus heridas adecuadamente.</p></div></div></div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">3.2</span><span class="rule-title">Vehículos y Avisos de LSMD y LSPD</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>El robo de vehículos de asistentes médicos y policías no está permitido por norma general. La policía es la única facción que puede rolear y portar un chip localizador.</p><p>El robo de un vehículo policial solo está permitido cuando no exista otra opción de escapar, y siempre teniendo en cuenta que dispone de un localizador GPS activo que debe rolearse con el /entorno correspondiente.</p><div class="warn-box"><p><strong>Avisos falsos prohibidos:</strong> Las llamadas o mensajes falsos a LSPD, LSMD, mecánicos u otros servicios están terminantemente prohibidos. Toda alerta debe incluir motivo, ubicación y hechos. Los mensajes ofensivos o sin sentido pueden conllevar sanción administrativa.</p></div></div></div>
+    </section>
+
+    <!-- CAP 4 -->
+    <section class="section" id="cap4">
+      <div class="section-header">
+        <div class="section-num">04</div>
+        <h2>Reportes</h2>
+      </div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">4.1</span><span class="rule-title">Procedimiento para Reportar un Rol</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Ambas partes deben intentar llegar a un entendimiento mediante <strong>/msg</strong> o <strong>Discord</strong>, nunca por el chat de voz IC. Si no se llega a acuerdo, se abrirá un ticket para que un administrador revise el rol, especificando el motivo y adjuntando pruebas visuales.</p><div class="warn-box"><p>Queda <strong>prohibido</strong> faltar al respeto a la administración o incumplir sus indicaciones durante un reporte o intervención.</p></div></div></div>
+    </section>
+
+    <!-- CAP 5 -->
+    <section class="section" id="cap5">
+      <div class="section-header">
+        <div class="section-num">05</div>
+        <h2>Sanciones</h2>
+      </div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">5.1</span><span class="rule-title">Infracciones de Normativa</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Cualquier infracción conllevará una penalización proporcional a su gravedad (<strong>warn + jail / ban</strong>).</p><div class="danger-box"><p><strong>Atención:</strong> La acumulación de <strong>5 warns</strong> supone un CK administrativo automático.</p></div></div></div>
+    </section>
+
+    <!-- CAP 6 -->
+    <section class="section" id="cap6">
+      <div class="section-header">
+        <div class="section-num">06</div>
+        <h2>Comunicación con la Administración</h2>
+      </div>
+
+      <div class="rule-card"><div class="rule-header" onclick="toggle(this)"><span class="rule-id">6.1</span><span class="rule-title">Canales Permitidos</span><svg class="rule-toggle" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><div class="rule-body"><p>Para comunicarte con cualquier miembro administrativo usa un <strong>ticket en Discord</strong>. Dentro del juego, el canal es el comando <strong>/report</strong>.</p><div class="danger-box"><p><strong>Prohibido:</strong> Escribir a un miembro del STAFF por mensaje privado es motivo de sanción.</p></div></div></div>
+    </section>
+
+    <div class="final-note">
+      <h3>Cláusula General de la Administración</h3>
+      <p>Toda actuación que no esté recogida en esta normativa <strong>no significa que sea válida</strong>. La Administración se reserva el derecho de decidir si una situación de rol es válida o sancionable, independientemente de si está explícitamente contemplada en el reglamento.</p>
+    </div>
+  </main>
+</div>
+
+<footer>
+  <p>© 2025 <span>Pixeled Community</span> · Todos los derechos reservados · Servidor FiveM +18</p>
+</footer>
+
+<script>
+  function toggle(header) {
+    const body = header.nextElementSibling;
+    const icon = header.querySelector('.rule-toggle');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    icon.classList.toggle('open', !isOpen);
+  }
+  let allOpen = false;
+  function toggleAll() {
+    allOpen = !allOpen;
+    document.querySelectorAll('.rule-body').forEach(b => b.classList.toggle('open', allOpen));
+    document.querySelectorAll('.rule-toggle').forEach(i => i.classList.toggle('open', allOpen));
+    document.querySelector('.expand-btn').textContent = allOpen ? 'Contraer todo' : 'Expandir todo';
+  }
+  const sections = document.querySelectorAll('.section');
+  const navLinks = document.querySelectorAll('.nav-chapter');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+    navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+  });
+</script>
+</body>
+</html>
